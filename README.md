@@ -1,3 +1,90 @@
+# Modified SparK for Handwritten Text Recognition
+
+This repository is a modified version of
+[SparK: Designing BERT for Convolutional Networks: Sparse and Hierarchical
+Masked Modeling](https://github.com/keyu-tian/SparK).
+
+The modifications were developed as part of a Master's thesis investigating
+self-supervised pretraining for Handwritten Text Recognition (HTR) using the
+Document Attention Network (DAN).
+
+The original SparK implementation is preserved as much as possible. The main
+extension is support for the convolutional encoder used by DAN, allowing the
+encoder to be pretrained using Masked Image Modeling (MIM) before supervised
+training for handwritten text recognition.
+
+## Main modifications
+
+The main changes compared with the original SparK implementation are:
+
+- Added support for the DAN `FCN_Encoder`.
+- Adapted the SparK encoder/decoder interface to work with the hierarchical
+  feature maps produced by the DAN encoder.
+- Added support for pretraining on handwriting image datasets rather than
+  ImageNet.
+- Added several masking strategies for experiments with handwritten text.
+- Added functionality used to transfer pretrained encoder weights to the
+  downstream DAN handwritten text recognition pipeline.
+
+The DAN encoder consists of convolutional and depthwise-separable convolutional
+blocks and was originally designed for line- and page-level handwritten text
+recognition.
+
+## Purpose
+
+The purpose of this modification is to investigate whether representations
+learned from unannotated handwriting images using Masked Image Modeling can
+improve subsequent supervised handwritten text recognition.
+
+The training pipeline used in the research is conceptually:
+
+    Unannotated handwriting images
+                |
+                v
+        SparK / MIM pretraining
+                |
+                v
+          DAN FCN encoder
+                |
+         pretrained weights
+                |
+                v
+       supervised DAN training
+                |
+                v
+        handwriting recognition
+
+Only the encoder weights learned during MIM pretraining are required for the
+downstream DAN training.
+
+## Experimental use
+
+The modified implementation was used to investigate:
+
+- different masking percentages;
+- different masking patterns;
+- the influence of pretraining dataset size;
+- the influence of supervised dataset size;
+- cross-dataset transfer of pretrained representations;
+- pretraining on unlabeled historical handwriting.
+
+Experiments were performed using handwriting datasets including IAM,
+READ-2016 and RIMES, as well as unlabeled historical document images.
+
+## Relationship to the original SparK repository
+
+This repository is based on the original SparK implementation by Keyu Tian
+et al. SparK enables BERT/MAE-style masked image modeling with convolutional
+neural networks by using sparse convolutions during encoding and a
+hierarchical decoder for reconstruction.
+
+The remainder of this README is the documentation from the original SparK
+repository and describes the original implementation, installation and
+pretraining procedure.
+
+---
+
+
 # SparK: the first successful BERT/MAE-style pretraining on *any* convolutional networks &nbsp;[![Reddit](https://img.shields.io/badge/Reddit-🔥%20120k%20views-b31b1b.svg?style=social&logo=reddit)](https://www.reddit.com/r/MachineLearning/comments/10ix0l1/r_iclr2023_spotlight_the_first_bertstyle/) [![Twitter](https://img.shields.io/badge/Twitter-🔥%2020k%2B120k%20views-b31b1b.svg?style=social&logo=twitter)](https://twitter.com/keyutian/status/1616606179144380422)
 
 This is the official implementation of ICLR paper [Designing BERT for Convolutional Networks: ***Spar***se and Hierarchical Mas***k***ed Modeling](https://arxiv.org/abs/2301.03580), which can pretrain **any CNN** (e.g., ResNet) in a **BERT-style self-supervised** manner.
