@@ -8,9 +8,9 @@ The modifications were developed as part of a Master's thesis investigating
 self-supervised pretraining for Handwritten Text Recognition (HTR) using the
 Document Attention Network (DAN).
 
-The original SparK implementation is preserved as much as possible. The main
+We preserved the original SparK implementation as much as possible. The main
 extension is support for the convolutional encoder used by DAN, allowing the
-encoder to be pretrained using Masked Image Modeling (MIM) before supervised
+encoder to be pretrained using Masked Image Modelling (MIM) before supervised
 training for handwritten text recognition.
 
 ## Main modifications
