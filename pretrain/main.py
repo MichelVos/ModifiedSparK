@@ -8,6 +8,7 @@ import datetime
 import math
 import sys
 import time
+import os
 from functools import partial
 from typing import List
 
@@ -49,7 +50,7 @@ def main_pt():
     
     # build data
     print(f'[build data for pre-training] ...\n')
-    dataset_train = build_dataset_to_pretrain(args.data_path, args.input_size, args.samples)
+    dataset_train = build_dataset_to_pretrain( os.path.expandvars(args.data_path), args.input_size, args.samples)
     data_loader_train = DataLoader(
         dataset=dataset_train, num_workers=args.dataloader_workers, pin_memory=True,
         batch_sampler=DistInfiniteBatchSampler(
@@ -91,7 +92,7 @@ def main_pt():
     
     # try to resume the experiment from some checkpoint.pth; this will load model weights, optimizer states, and last epoch (ep_start)
     # if loaded, ep_start will be greater than 0
-    ep_start, performance_desc = misc.load_checkpoint(args.resume_from, model_without_ddp, optimizer)
+    ep_start, performance_desc = misc.load_checkpoint( os.path.expandvars( args.resume_from), model_without_ddp, optimizer)
     if ep_start >= args.ep: # load from a complete checkpoint file
         print(f'  [*] [PT already done]    Min/Last Recon Loss: {performance_desc}')
     else:   # perform pre-training

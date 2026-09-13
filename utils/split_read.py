@@ -2,8 +2,8 @@ import os
 from PIL import Image
 import numpy as np
 
-input_dir = "/home/michel/dev/python/formatted/IAM_page/test"
-output_dir = "/home/michel/dev/python/formatted/IAM_224/test"
+input_dir = "${HOME}/dev/python/formatted/IAM_page/test"
+output_dir = "${HOME}/dev/python/formatted/IAM_224/test"
 patch_size = 224
 
 os.makedirs(output_dir, exist_ok=True)

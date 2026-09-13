@@ -6,7 +6,7 @@
 
 import datetime
 import time
-
+import os
 import torch
 import torch.distributed as tdist
 from timm.utils import ModelEmaV2
@@ -27,14 +27,14 @@ def main_ft():
     args.log_epoch()
     
     criterion, mixup_fn, model_without_ddp, model, model_ema, optimizer = create_model_opt(args)
-    ep_start, performance_desc = load_checkpoint(args.resume_from, model_without_ddp, model_ema, optimizer)
+    ep_start, performance_desc = load_checkpoint(os.path.expandvars( args.resume_from), model_without_ddp, model_ema, optimizer)
     
     if ep_start >= args.ep: # load from a complete checkpoint file
         print(f'  [*] [FT already done]    Max/Last Acc: {performance_desc}')
     else:
         tb_lg = SummaryWriter(args.tb_lg_dir) if args.is_master else None
         loader_train, iters_train, iterator_val, iters_val = create_classification_dataset(
-            args.data_path, args.img_size, args.rep_aug,
+            os.path.expandvars( args.data_path), args.img_size, args.rep_aug,
             args.dataloader_workers, args.batch_size_per_gpu, args.world_size, args.global_rank
         )
         
