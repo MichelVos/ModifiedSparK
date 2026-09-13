@@ -1,9 +1,9 @@
-matplotlib
-numpy
-Pillow
-typed-argument-parser
+matplotlib==3.10.9
+numpy==2.4.4
+Pillow==12.2.0
+typed-argument-parser==1.12.0
 timm==0.5.4
-tensorboardx
-tensorboard
-pytz
-pyqt6
+tensorboardx==2.6.5
+tensorboard==2.20.0
+pytz==2026.2
+pyqt6==6.11.0
