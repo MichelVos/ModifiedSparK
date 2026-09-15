@@ -7,7 +7,7 @@
 import json
 import os
 import sys
-
+from pathlib import Path
 from tap import Tap
 
 import dist
@@ -17,7 +17,7 @@ class Args(Tap):
     # environment
     #exp_name: str = 'Pretrain DAN IAM on page level'
     #exp_dir: str = 'IAM_line_40perc_random_full_mask_L2'   # will be created if not exists
-    seed: int = 1
+    seed: int = 42
     exp_name: str = 'Pretrain DAN on RIMES dataset L2 seed 1 dropout=0 resnet mean/std'
     #exp_dir: str = f'READ_pretrain_L2_224_25perc_full_patches_set_encoder_A{seed}'   # will be created if not exists
     exp_dir: str = f'RIMES_200epochs_lr_pretrain_L2_224_40perc_random_full_mask_L2_seed_{seed}'
@@ -25,10 +25,10 @@ class Args(Tap):
     #data_path: str = '${HOME}/dev/python/formatted/IAM_224/train'
     #data_path = "${HOME}/dev/python/formatted/RD_BAUTZEN_224/classes"
     #data_path: str = '${HOME}/dev/python/formatted/IAM_non_syn_line/train'
-    data_path: str = '${HOME}/dev/python/formatted/RIMES_224/train'
+    data_path: str = f'{Path.home()}/dev/python/formatted/RIMES_224/train'
     samples = None, # 500 # None # for debug; set samples to an integer number to use only part of the dataset for training
     init_weight: str = ''   # use some checkpoint as model weight initialization; ONLY load model weights
-    resume_from: str = f'${HOME}/dev/python/SparK/{exp_dir}/DAN_encoder_withdecoder_1kpretrained_spark_style.pth'   # resume the experiment from some checkpoint.pth; load model weights, optimizer states, and last epoch
+    resume_from: str = f'{Path.home()}/dev/python/SparK/{exp_dir}/DAN_encoder_withdecoder_1kpretrained_spark_style.pth'   # resume the experiment from some checkpoint.pth; load model weights, optimizer states, and last epoch
     # resume_from: str = '${HOME}/dev/python/SparK/Pre_DAN_IAM_line_64h_16x16_40perc_garbagel1/DAN_encoder_1kpretrained_timm_style.pth'     
     # SparK hyperparameters
     #resume_from: str = f'${HOME}/dev/python/SparK/{exp_dir}/DAN_encoder_withdecoder_1kpretrained_spark_style_27.pth'
